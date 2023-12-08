@@ -4,7 +4,7 @@ import 'package:network_proxy/network/channel.dart';
 
 import 'http_headers.dart';
 
-///定义HTTP消息的接口，为HttpRequest和HttpResponse提供公共属性。
+///Defines the interface for HTTP messages, providing public properties for HttpRequest and HttpResponse.
 abstract class HttpMessage {
   ///内容类型
   static final Map<String, ContentType> contentTypes = {

@@ -17,37 +17,37 @@ Future<void> main() async {
   ProxyServer().start();
 }
 
-/// 代理服务器
+/// proxy server
 class ProxyServer {
-  //是否初始化
+  //format
   bool init = false;
   int port = 9099;
 
-  //是否启用https抓包
+  //https packet capture enable/disable Flag
   bool _enableSsl = false;
 
-  //是否启用桌面抓包
+  //desktop packet capture Flag
   bool enableDesktop = true;
 
-  //是否引导
+  //guide
   bool guide = false;
 
-  //是否启动
+  //serverRunning
   bool get isRunning => server?.isRunning ?? false;
 
   Server? server;
 
-  //请求事件监听
+  //Request listener
   EventListener? listener;
 
-  //请求重写
+  //Request rewite
   RequestRewrites requestRewrites = RequestRewrites();
 
   final List<Function> _initializedListeners = [];
 
   ProxyServer({this.listener});
 
-  //初始化
+  //initialize
   Future<void> initializedListener(Function action) async {
     _initializedListeners.add(action);
   }
@@ -65,14 +65,14 @@ class ProxyServer {
     return File("${userHome!}$separator.proxypin");
   }
 
-  /// 配置文件
+  /// config file
   Future<File> configFile() async {
     var separator = Platform.pathSeparator;
     var home = await homeDir();
     return File("${home.path}${separator}config.cnf");
   }
 
-  ///是否启用https抓包
+  ///https capture Flag
   bool get enableSsl => _enableSsl;
 
   set enableSsl(bool enableSsl) {
@@ -87,11 +87,11 @@ class ProxyServer {
     }
   }
 
-  /// 启动代理服务
+  /// proxy service start
   Future<Server> start() async {
     Server server = Server();
     if (!init) {
-      // 读取配置文件
+      // config file reading
       init = true;
       await _loadConfig();
       for (var element in _initializedListeners) {
@@ -117,7 +117,7 @@ class ProxyServer {
     });
   }
 
-  /// 停止代理服务
+  /// proxy service stop
   Future<Server?> stop() async {
     logger.i("stop on $port");
     if (enableDesktop) {
@@ -131,12 +131,12 @@ class ProxyServer {
     return server;
   }
 
-  /// 重启代理服务
+  /// proxy service restart
   restart() {
     stop().then((value) => start());
   }
 
-  /// 刷新配置文件
+  /// config file Rewriting
   flushConfig() async {
     var file = await configFile();
     var exists = await file.exists();
@@ -146,11 +146,11 @@ class ProxyServer {
     HostFilter.whitelist.toJson();
     HostFilter.blacklist.toJson();
     var json = jsonEncode(toJson());
-    logger.i('刷新配置文件 $runtimeType ${toJson()}');
+    logger.i('config file rewrited $runtimeType ${toJson()}');
     file.writeAsString(json);
   }
 
-  /// 加载配置文件
+  /// config file loading
   Future<void> _loadConfig() async {
     var file = await configFile();
     var exits = await file.exists();
@@ -160,7 +160,7 @@ class ProxyServer {
     }
 
     Map<String, dynamic> config = jsonDecode(await file.readAsString());
-    logger.i('加载配置文件 [$file]');
+    logger.i('load a config [$file]');
     port = config['port'] ?? port;
     enableSsl = config['enableSsl'] == true;
     enableDesktop = config['enableDesktop'] ?? true;
@@ -171,7 +171,7 @@ class ProxyServer {
     await _loadRequestRewriteConfig();
   }
 
-  /// 加载请求重写配置文件
+  /// config file rewrite Request
   Future<void> _loadRequestRewriteConfig() async {
     var home = await homeDir();
     var file =
@@ -183,11 +183,11 @@ class ProxyServer {
 
     Map<String, dynamic> config = jsonDecode(await file.readAsString());
 
-    logger.i('加载请求重写配置文件 [$file]');
+    logger.i('requested config [$file] rewrite');
     requestRewrites.load(config);
   }
 
-  /// 保存请求重写配置文件
+  /// Save request rewrite configuration file
   flushRequestRewriteConfig() async {
     var home = await homeDir();
     var file =
@@ -197,7 +197,7 @@ class ProxyServer {
       await file.create(recursive: true);
     }
     var json = jsonEncode(requestRewrites.toJson());
-    logger.i('刷新请求重写配置文件 ${file.path}');
+    logger.i('Requested rewrite new config ${file.path}');
     file.writeAsString(json);
   }
 

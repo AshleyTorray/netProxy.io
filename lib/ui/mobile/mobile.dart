@@ -65,7 +65,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener {
     return Scaffold(
       appBar: AppBar(title: search(), actions: [
         IconButton(
-            tooltip: "清理",
+            tooltip: "clean up",
             icon: const Icon(Icons.cleaning_services_outlined),
             onPressed: () => requestStateKey.currentState?.clean()),
         const SizedBox(width: 2),
@@ -94,7 +94,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener {
                         onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                           return ConnectRemote(desktop: desktop, proxyServer: proxyServer);
                         })),
-                        child: Text("已连接${value.os?.toUpperCase()}，手机抓包已关闭",
+                        child: Text("connected ${value.os?.toUpperCase()}, cell phone packet capture is turned off",
                             style: Theme.of(context).textTheme.titleMedium),
                       )),
               Expanded(child: RequestListWidget(key: requestStateKey, proxyServer: proxyServer))
@@ -103,7 +103,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener {
     );
   }
 
-  /// 搜索框
+  /// search bar
   Widget search() {
     return Padding(
         padding: const EdgeInsets.only(left: 20),
@@ -118,7 +118,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener {
                 const InputDecoration(border: InputBorder.none, prefixIcon: Icon(Icons.search), hintText: 'Search')));
   }
 
-  /// 检查远程连接
+  /// Check remote connection
   checkConnectTask(BuildContext context) async {
     int retry = 0;
     _connectCheckTimer = Timer.periodic(const Duration(milliseconds: 1000), (timer) async {
@@ -138,7 +138,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener {
         _connectCheckTimer = null;
         desktop.value = RemoteModel(connect: false);
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("检查远程连接失败，已断开")));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Checking the remote connection failed and was disconnected")));
         }
       }
     });

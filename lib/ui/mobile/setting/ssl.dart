@@ -30,13 +30,13 @@ class _MobileSslState extends State<MobileSslWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Https代理"),
+          title: const Text("HTTPS proxy"),
           centerTitle: true,
         ),
         body: ListView(children: [
           SwitchListTile(
               hoverColor: Colors.transparent,
-              title: const Text("启用Https代理", style: TextStyle(fontSize: 16)),
+              title: const Text("Enable HTTPS proxy", style: TextStyle(fontSize: 16)),
               value: widget.proxyServer.enableSsl,
               onChanged: (val) {
                 widget.proxyServer.enableSsl = val;
@@ -46,14 +46,14 @@ class _MobileSslState extends State<MobileSslWidget> {
                 setState(() {});
               }),
           ExpansionTile(
-              title: const Text("安装根证书"),
+              title: const Text("Install root certificate"),
               initiallyExpanded: true,
               childrenPadding: const EdgeInsets.only(left: 20),
               expandedAlignment: Alignment.topLeft,
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               shape: const Border(),
               children: [
-                TextButton(onPressed: () => _downloadCert(), child: const Text("1. 点击下载根证书")),
+                TextButton(onPressed: () => _downloadCert(), child: const Text("1. Click to download the root certificate")),
                 ...(Platform.isIOS ? ios() : android()),
                 const SizedBox(height: 20)
               ])
@@ -62,13 +62,13 @@ class _MobileSslState extends State<MobileSslWidget> {
 
   List<Widget> ios() {
     return [
-      TextButton(onPressed: () {}, child: const Text("2. 安装根证书 -> 信任证书")),
-      TextButton(onPressed: () {}, child: const Text("2.1 安装根证书 设置 > 已下载描述文件 > 安装")),
+      TextButton(onPressed: () {}, child: const Text("2. Install root certificate -> trust certificate")),
+      TextButton(onPressed: () {}, child: const Text("2.1 Install the root certificate Settings > Downloaded description file > Install")),
       Padding(
           padding: const EdgeInsets.only(left: 15),
           child:
               Image.network("https://foruda.gitee.com/images/1689346516243774963/c56bc546_1073801.png", height: 400)),
-      TextButton(onPressed: () {}, child: const Text("2.2 信任根证书 设置 > 通用 > 关于本机 -> 证书信任设置")),
+      TextButton(onPressed: () {}, child: const Text("2.2 Trust the root certificate Settings > General > About This Mac -> Certificate Trust Settings")),
       Padding(
           padding: const EdgeInsets.only(left: 15),
           child:
@@ -78,7 +78,7 @@ class _MobileSslState extends State<MobileSslWidget> {
 
   List<Widget> android() {
     return [
-      TextButton(onPressed: () {}, child: const Text("2. 打开设置 -> 安全 -> 加密和凭据 -> 安装证书 -> CA 证书")),
+      TextButton(onPressed: () {}, child: const Text("2. Open Settings -> Security -> Encryption & Credentials -> Install Certificate -> CA Certificate")),
       ClipRRect(
           child: Align(
               alignment: Alignment.topCenter,
@@ -95,7 +95,7 @@ class _MobileSslState extends State<MobileSslWidget> {
       showDialog(
           context: context,
           builder: (context) {
-            return const Text("请先启动抓包");
+            return const Text("Please start packet capture first");
           });
       return;
     }

@@ -37,7 +37,7 @@ class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      tooltip: "设置",
+      tooltip: "option",
       icon: const Icon(Icons.settings),
       surfaceTintColor: Colors.white70,
       offset: const Offset(10, 30),
@@ -54,7 +54,7 @@ class _SettingState extends State<Setting> {
                   valueListenable: enableDesktopListenable,
                   builder: (_, val, __) => SwitchListTile(
                       hoverColor: Colors.transparent,
-                      title: const Text("抓取电脑请求", style: TextStyle(fontSize: 12)),
+                      title: const Text("Fetch computer requests", style: TextStyle(fontSize: 12)),
                       visualDensity: const VisualDensity(horizontal: -4),
                       dense: true,
                       value: widget.proxyServer.enableDesktop,
@@ -65,8 +65,8 @@ class _SettingState extends State<Setting> {
                         widget.proxyServer.flushConfig();
                       }))),
           const PopupMenuItem(padding: EdgeInsets.all(0), child: ThemeSetting(dense: true)),
-          menuItem("域名过滤", onTap: () => _filter()),
-          menuItem("请求重写", onTap: () => _reqeustRewrite()),
+          menuItem("Domain name filtering", onTap: () => _filter()),
+          menuItem("Request a rewrite", onTap: () => _reqeustRewrite()),
           menuItem(
             "Github",
             onTap: () {
@@ -100,13 +100,13 @@ class _SettingState extends State<Setting> {
           return AlertDialog(
             scrollable: true,
             title: Row(children: [
-              const Text("请求重写"),
+              const Text("Request a rewrite"),
               Expanded(
                   child: Align(
                       alignment: Alignment.topRight,
                       child: ElevatedButton.icon(
                           icon: const Icon(Icons.close, size: 15),
-                          label: const Text("关闭"),
+                          label: const Text("close"),
                           onPressed: () => Navigator.of(context).pop())))
             ]),
             content: RequestRewrite(proxyServer: widget.proxyServer),
@@ -170,7 +170,7 @@ class _PortState extends State<PortWidget> {
   Widget build(BuildContext context) {
     return Row(children: [
       const Padding(padding: EdgeInsets.only(left: 16)),
-      Text("端口号：", style: widget.textStyle),
+      Text("The port number:", style: widget.textStyle),
       SizedBox(
           width: 80,
           child: TextFormField(

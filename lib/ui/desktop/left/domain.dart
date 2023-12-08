@@ -12,7 +12,7 @@ import 'package:network_proxy/ui/desktop/left/path.dart';
 import 'package:network_proxy/ui/content/panel.dart';
 import 'package:network_proxy/ui/desktop/left/search.dart';
 
-///左侧域名
+///Domain name on the left
 class DomainWidget extends StatefulWidget {
   final NetworkTabController panel;
   final ProxyServer proxyServer;
@@ -28,9 +28,9 @@ class DomainWidget extends StatefulWidget {
 class DomainWidgetState extends State<DomainWidget> {
   LinkedHashMap<HostAndPort, HeaderBody> containerMap = LinkedHashMap<HostAndPort, HeaderBody>();
 
-  //搜索的文本
+  //Search text
   String? searchText;
-  bool changing = false; //是否存在刷新任务
+  bool changing = false; //is there a refresh task?
 
   changeState() {
     if (!changing) {
@@ -46,7 +46,7 @@ class DomainWidgetState extends State<DomainWidget> {
   @override
   Widget build(BuildContext context) {
     var list = containerMap.values;
-    //根究搜素文本过滤
+    //Filter based on search text
     if (searchText?.trim().isNotEmpty == true) {
       list = searchFilter(searchText!);
     }
@@ -63,7 +63,7 @@ class DomainWidgetState extends State<DomainWidget> {
         }));
   }
 
-  ///搜索过滤
+  ///Search filter
   List<HeaderBody> searchFilter(String text) {
     var result = <HeaderBody>[];
     containerMap.forEach((key, headerBody) {
@@ -75,16 +75,16 @@ class DomainWidgetState extends State<DomainWidget> {
     return result;
   }
 
-  ///添加请求
+  ///add request
   add(Channel channel, HttpRequest request) {
     HostAndPort hostAndPort = channel.getAttribute(AttributeKeys.host);
-    //按照域名分类
+    //Classified by domain name
     HeaderBody? headerBody = containerMap[hostAndPort];
     var listURI = PathRow(request, widget.panel, proxyServer: widget.proxyServer);
     if (headerBody != null) {
       headerBody.addBody(channel.id, listURI);
 
-      //搜索状态，刷新数据
+      //Search status, refresh data
       if (searchText?.isNotEmpty == true) {
         changeState();
       }
@@ -104,14 +104,14 @@ class DomainWidgetState extends State<DomainWidget> {
     });
   }
 
-  ///添加响应
+  ///add response
   addResponse(Channel channel, HttpResponse response) {
     HostAndPort hostAndPort = channel.getAttribute(AttributeKeys.host);
     HeaderBody? headerBody = containerMap[hostAndPort];
     headerBody?.getBody(channel.id)?.add(response);
   }
 
-  ///清理
+  ///clear
   clean() {
     widget.panel.change(null, null);
     setState(() {
@@ -120,18 +120,18 @@ class DomainWidgetState extends State<DomainWidget> {
   }
 }
 
-///标题和内容布局 标题是域名 内容是域名下请求
+///Title and content layout The title is the domain name and the content is requested under the domain name
 class HeaderBody extends StatefulWidget {
-  //请求ID和请求的映射
+  //Mapping of request IDs and requests
   final Map<String, PathRow> channelIdPathMap = HashMap<String, PathRow>();
 
   final HostAndPort header;
   final ProxyServer proxyServer;
 
-  //请求列表
+  //request list
   final Queue<PathRow> _body = Queue();
 
-  //是否选中
+  //check or not
   final bool selected;
 
   //移除回调
@@ -238,26 +238,26 @@ class _HeaderBodyState extends State<HeaderBody> {
       items: <PopupMenuEntry>[
         PopupMenuItem(
             height: 38,
-            child: const Text("添加黑名单", style: TextStyle(fontSize: 14)),
+            child: const Text("Add Blacklist", style: TextStyle(fontSize: 14)),
             onTap: () {
               HostFilter.blacklist.add(widget.header.host);
               widget.proxyServer.flushConfig();
             }),
         PopupMenuItem(
             height: 38,
-            child: const Text("添加白名单", style: TextStyle(fontSize: 14)),
+            child: const Text("Add Whitelist", style: TextStyle(fontSize: 14)),
             onTap: () {
               HostFilter.whitelist.add(widget.header.host);
               widget.proxyServer.flushConfig();
             }),
         PopupMenuItem(
             height: 38,
-            child: const Text("删除白名单", style: TextStyle(fontSize: 14)),
+            child: const Text("Delete whitelist", style: TextStyle(fontSize: 14)),
             onTap: () {
               HostFilter.whitelist.remove(widget.header.host);
               widget.proxyServer.flushConfig();
             }),
-        PopupMenuItem(height: 38, child: const Text("删除", style: TextStyle(fontSize: 14)), onTap: () => _delete()),
+        PopupMenuItem(height: 38, child: const Text("delete", style: TextStyle(fontSize: 14)), onTap: () => _delete()),
       ],
     );
   }

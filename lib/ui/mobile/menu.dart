@@ -32,26 +32,26 @@ class DrawerWidget extends StatelessWidget {
       children: [
         DrawerHeader(
           decoration: BoxDecoration(color: Theme.of(context).colorScheme.primaryContainer),
-          child: const Text('设置'),
+          child: const Text('option'),
         ),
         PortWidget(proxyServer: proxyServer),
         ListTile(
-            title: const Text("HTTPS抓包"),
+            title: const Text("HTTPS packet capture"),
             trailing: const Icon(Icons.arrow_right),
             onTap: () => navigator(context, MobileSslWidget(proxyServer: proxyServer))),
         const ThemeSetting(),
         ListTile(
-            title: const Text("域名白名单"),
+            title: const Text("Domain name whitelist"),
             trailing: const Icon(Icons.arrow_right),
             onTap: () =>
                 navigator(context, MobileFilterWidget(proxyServer: proxyServer, hostList: HostFilter.whitelist))),
         ListTile(
-            title: const Text("域名黑名单"),
+            title: const Text("Domain name blacklist"),
             trailing: const Icon(Icons.arrow_right),
             onTap: () =>
                 navigator(context, MobileFilterWidget(proxyServer: proxyServer, hostList: HostFilter.blacklist))),
         ListTile(
-            title: const Text("请求重写"),
+            title: const Text("Request a rewrite"),
             trailing: const Icon(Icons.arrow_right),
             onTap: () => navigator(context, MobileRequestRewrite(proxyServer: proxyServer))),
         ListTile(
@@ -62,7 +62,7 @@ class DrawerWidget extends StatelessWidget {
                   mode: LaunchMode.externalApplication);
             }),
         ListTile(
-            title: const Text("下载地址"),
+            title: const Text("download link"),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {
               launchUrl(Uri.parse("https://gitee.com/wanghongenpin/network-proxy-flutter/releases"),
@@ -92,7 +92,7 @@ class MoreEnum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      tooltip: "扫码连接",
+      tooltip: "Scan code to connect",
       offset: const Offset(0, 30),
       child: const SizedBox(height: 38, width: 38, child: Icon(Icons.add_circle_outline, size: 26)),
       itemBuilder: (BuildContext context) {
@@ -101,7 +101,7 @@ class MoreEnum extends StatelessWidget {
               padding: const EdgeInsets.only(left: 0),
               child: ListTile(
                   dense: true,
-                  title: const Text("HTTPS抓包"),
+                  title: const Text("HTTPS packet capture"),
                   leading: Icon(Icons.https, color: proxyServer.enableSsl ? null : Colors.red),
                   onTap: () {
                     Navigator.of(context).push(
@@ -115,7 +115,7 @@ class MoreEnum extends StatelessWidget {
               child: ListTile(
                 dense: true,
                 leading: const Icon(Icons.qr_code_scanner_outlined),
-                title: const Text("连接终端"),
+                title: const Text("Connect terminal"),
                 onTap: () {
                   connectRemote(context);
                 },
@@ -125,7 +125,7 @@ class MoreEnum extends StatelessWidget {
               child: ListTile(
                 dense: true,
                 leading: const Icon(Icons.phone_iphone),
-                title: const Text("我的二维码"),
+                title: const Text("My QR code"),
                 onTap: () async {
                   var ip = await localIp();
                   if (context.mounted) {
@@ -145,7 +145,7 @@ class MoreEnum extends StatelessWidget {
       await EasyPermission.requestPermissions([PermissionType.CAMERA]);
       scanRes = await scanner.scan() ?? "-1";
     } else {
-      scanRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", "取消", true, ScanMode.QR);
+      scanRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", "cancel", true, ScanMode.QR);
     }
 
     if (scanRes == "-1") return;
@@ -170,7 +170,7 @@ class MoreEnum extends StatelessWidget {
               hostname: response.headers.get("hostname"));
 
           if (context.mounted && Navigator.canPop(context)) {
-            FlutterToastr.show("连接成功", context);
+            FlutterToastr.show("connection succeeded", context);
             Navigator.pop(context);
           }
         }
@@ -180,14 +180,14 @@ class MoreEnum extends StatelessWidget {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return const AlertDialog(content: Text("连接失败，请检查是否在同一局域网"));
+                return const AlertDialog(content: Text("Connection failed, please check if you are on the same LAN"));
               });
         }
       }
       return;
     }
     if (context.mounted) {
-      FlutterToastr.show("无法识别的二维码", context);
+      FlutterToastr.show("Unrecognized QR code", context);
     }
   }
 
@@ -199,7 +199,7 @@ class MoreEnum extends StatelessWidget {
           return AlertDialog(
             contentPadding: const EdgeInsets.only(top: 5),
             actionsPadding: const EdgeInsets.only(bottom: 5),
-            title: const Text("远程连接，将请求转发到其他终端", style: TextStyle(fontSize: 16)),
+            title: const Text("Remote connection, forwarding requests to other terminals", style: TextStyle(fontSize: 16)),
             content: SizedBox(
                 height: 240,
                 width: 300,
@@ -213,7 +213,7 @@ class MoreEnum extends StatelessWidget {
                       size: 200.0,
                     ),
                     const SizedBox(height: 20),
-                    const Text("请使用手机扫描二维码"),
+                    const Text("Please use your mobile phone to scan the QR code"),
                   ],
                 )),
             actions: [
@@ -221,7 +221,7 @@ class MoreEnum extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text("取消")),
+                  child: const Text("cancel")),
             ],
           );
         });

@@ -24,10 +24,10 @@ class _MobileFilterState extends State<MobileFilterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var title = widget.hostList.runtimeType == Whites ? "白名单" : "黑名单";
-    var subtitle = widget.hostList.runtimeType == Whites ? "只代理白名单中的域名, 白名单启用黑名单将会失效" : "黑名单中的域名不会代理";
+    var title = widget.hostList.runtimeType == Whites ? "whitelist" : "blacklist";
+    var subtitle = widget.hostList.runtimeType == Whites ? "Only the domain names in the whitelist will be proxy. If the whitelist is enabled, the blacklist will be invalid." : "Domain names in the blacklist will not be proxied";
     return Scaffold(
-        appBar: AppBar(title: const Text("域名过滤", style: TextStyle(fontSize: 16))),
+        appBar: AppBar(title: const Text("Domain name filtering", style: TextStyle(fontSize: 16))),
         body: Container(
           padding: const EdgeInsets.all(10),
           child: DomainFilter(
@@ -77,7 +77,7 @@ class _DomainFilterState extends State<DomainFilter> {
             valueListenable: widget.hostEnableNotifier,
             builder: (_, bool enable, __) {
               return SwitchListTile(
-                  title: const Text('是否启用'),
+                  title: const Text('Whether to enable'),
                   value: widget.hostList.enabled,
                   onChanged: (value) {
                     widget.hostList.enabled = value;
@@ -91,11 +91,11 @@ class _DomainFilterState extends State<DomainFilter> {
               onPressed: () {
                 add();
               },
-              label: const Text("增加")),
+              label: const Text("add")),
           const SizedBox(width: 10),
           TextButton.icon(
               icon: const Icon(Icons.remove),
-              label: const Text("删除"),
+              label: const Text("delete"),
               onPressed: () {
                 if (domainList.selected().isEmpty) {
                   return;
@@ -138,7 +138,7 @@ class _DomainFilterState extends State<DomainFilter> {
                       ]))),
               actions: [
                 FilledButton(
-                    child: const Text("添加"),
+                    child: const Text("add to"),
                     onPressed: () {
                       (formKey.currentState as FormState).save();
                       if (host != null && host!.isNotEmpty) {
@@ -153,7 +153,7 @@ class _DomainFilterState extends State<DomainFilter> {
                       Navigator.of(context).pop();
                     }),
                 ElevatedButton(
-                    child: const Text("关闭"),
+                    child: const Text("close"),
                     onPressed: () {
                       Navigator.of(context).pop();
                     })
@@ -194,7 +194,7 @@ class _DomainListState extends State<DomainList> {
             child: DataTable(
           border: TableBorder.symmetric(outside: BorderSide(width: 1, color: Theme.of(context).highlightColor)),
           columns: const <DataColumn>[
-            DataColumn(label: Text('域名')),
+            DataColumn(label: Text('domain name')),
           ],
           rows: List.generate(
               widget.hostList.list.length,

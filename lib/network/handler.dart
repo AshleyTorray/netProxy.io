@@ -45,7 +45,7 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
       return;
     }
 
-    //请求本服务
+    //Request this service
     if ((await localIp()) == msg.hostAndPort?.host) {
       localRequest(msg, channel);
       return;
@@ -56,10 +56,10 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
       channel.close();
       if (error is SocketException &&
           (error.message.contains("Failed host lookup") || error.message.contains("Connection timed out"))) {
-        log.e("连接失败 ${error.message}");
+        log.e("Connection failed ${error.message}");
         return;
       }
-      log.e("转发请求失败", error, trace);
+      log.e("Forwarding request failed", error, trace);
     });
   }
 
@@ -91,11 +91,11 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
     channel.writeAndClose(response);
   }
 
-  /// 转发请求
+  /// forward request
   Future<void> forward(Channel channel, HttpRequest httpRequest) async {
     var remoteChannel = await _getRemoteChannel(channel, httpRequest);
 
-    //实现抓包代理转发
+    //Implement packet capture proxy forwarding
     if (httpRequest.method != HttpMethod.connect) {
       // log.i("[${channel.id}] ${httpRequest.requestUrl}");
 
@@ -107,7 +107,7 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
       if (!HostFilter.filter(httpRequest.hostAndPort?.host)) {
         listener?.onRequest(channel, httpRequest);
       }
-      //实现抓包代理转发
+      //Implement packet capture proxy forwarding
       await remoteChannel.write(httpRequest);
     }
   }
@@ -130,10 +130,10 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
     channel.writeAndClose(response);
   }
 
-  /// 获取远程连接
+  /// Get remote connection
   Future<Channel> _getRemoteChannel(Channel clientChannel, HttpRequest httpRequest) async {
     String clientId = clientChannel.id;
-    //客户端连接 作为缓存
+    ////Client connection as cache
     Channel? remoteChannel = clientChannel.getAttribute(clientId);
     if (remoteChannel != null) {
       return remoteChannel;
@@ -144,7 +144,7 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
 
     var proxyHandler = HttpResponseProxyHandler(clientChannel, listener: listener, requestRewrites: requestRewrites);
 
-    //远程代理
+    //remote agent
     HostAndPort? remote = clientChannel.getAttribute(AttributeKeys.remote);
     if (remote != null) {
       var proxyChannel = await HttpClients.rawConnect(remote, proxyHandler);
@@ -156,7 +156,7 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
     var proxyChannel = await HttpClients.rawConnect(hostAndPort, proxyHandler);
     clientChannel.putAttribute(clientId, proxyChannel);
 
-    //https代理新建连接请求
+    //https proxy new connection request
     if (httpRequest.method == HttpMethod.connect) {
       await clientChannel.write(HttpResponse(httpRequest.protocolVersion, HttpStatus.ok));
     }
@@ -165,7 +165,7 @@ class HttpChannelHandler extends ChannelHandler<HttpRequest> {
   }
 }
 
-/// http响应代理
+/// http response proxy
 class HttpResponseProxyHandler extends ChannelHandler<HttpResponse> {
   final Channel clientChannel;
 
@@ -188,7 +188,7 @@ class HttpResponseProxyHandler extends ChannelHandler<HttpResponse> {
     if (!HostFilter.filter(msg.request?.hostAndPort?.host)) {
       listener?.onResponse(clientChannel, msg);
     }
-    //发送给客户端
+    //Send to client
     clientChannel.write(msg);
   }
 
@@ -205,7 +205,7 @@ class RelayHandler extends ChannelHandler<Object> {
 
   @override
   void channelRead(Channel channel, Object msg) {
-    //发送给客户端
+    //Send to client
     remoteChannel.write(msg);
   }
 

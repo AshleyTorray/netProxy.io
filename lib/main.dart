@@ -25,7 +25,7 @@ void main(List<String> args) async {
     return;
   }
 
-  //多窗口
+  //Muti window
   if (args.firstOrNull == 'multi_window') {
     final windowId = int.parse(args[1]);
     final argument = args[2].isEmpty ? const {} : jsonDecode(args[2]) as Map<String, dynamic>;
@@ -35,7 +35,7 @@ void main(List<String> args) async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  //设置窗口大小
+  //windowSize options
   WindowOptions windowOptions = WindowOptions(
       minimumSize: const Size(980, 600),
       size: Platform.isMacOS ? const Size(1200, 750) : const Size(1080, 650),
@@ -49,7 +49,7 @@ void main(List<String> args) async {
   runApp(const FluentApp(DesktopHomePage()));
 }
 
-///多窗口
+///multi window
 Widget multiWindow(int windowId, Map<dynamic, dynamic> argument) {
   if (argument['name'] == 'RequestEditor') {
     return RequestEditor(
@@ -68,7 +68,7 @@ Widget multiWindow(int windowId, Map<dynamic, dynamic> argument) {
   return const SizedBox();
 }
 
-/// 主题
+/// valueNotifier
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
 class FluentApp extends StatelessWidget {
@@ -84,8 +84,8 @@ class FluentApp extends StatelessWidget {
     var lightTheme = ThemeData.light(useMaterial3: true);
     var darkTheme = ThemeData.dark(useMaterial3: !Platforms.isDesktop());
     if (Platform.isWindows) {
-      lightTheme = lightTheme.useSystemChineseFont();
-      darkTheme = darkTheme.useSystemChineseFont();
+      lightTheme = lightTheme.useSystemChineseFont(Brightness.light);
+      darkTheme = darkTheme.useSystemChineseFont(Brightness.dark);
     }
 
     return ValueListenableBuilder<ThemeMode>(
@@ -136,7 +136,7 @@ class _DesktopHomePagePageState extends State<DesktopHomePage> implements EventL
       if (!proxyServer.guide) {
         return;
       }
-      //首次引导
+      //first booting
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -149,11 +149,11 @@ class _DesktopHomePagePageState extends State<DesktopHomePage> implements EventL
                         proxyServer.flushConfig();
                         Navigator.pop(context);
                       },
-                      child: const Text('关闭'))
+                      child: const Text('closure'))
                 ],
-                title: const Text('提示', style: TextStyle(fontSize: 18)),
-                content: const Text('默认不会开启HTTPS抓包，请安装证书后再开启HTTPS抓包。\n'
-                    '点击的HTTPS抓包(加锁图标)，选择安装根证书，按照提示操作即可。'));
+                title: const Text('hint', style: TextStyle(fontSize: 18)),
+                content: const Text('It prompts that HTTPS packet capture will not be enabled by default. Please install the certificate before enabling HTTPS packet capture.\n'
+                    'Click on the HTTPS packet capture (lock icon), choose to install the root certificate, and follow the prompts.'));
           });
     });
   }

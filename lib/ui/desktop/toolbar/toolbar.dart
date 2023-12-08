@@ -65,7 +65,7 @@ class _ToolbarState extends State<Toolbar> {
         SocketLaunch(proxyServer: widget.proxyServer),
         const Padding(padding: EdgeInsets.only(left: 20)),
         IconButton(
-            tooltip: "清理",
+            tooltip: "clean up",
             icon: const Icon(Icons.cleaning_services_outlined),
             onPressed: () {
               widget.domainStateKey.currentState?.clean();
@@ -76,7 +76,7 @@ class _ToolbarState extends State<Toolbar> {
         Setting(proxyServer: widget.proxyServer),
         const Padding(padding: EdgeInsets.only(left: 20)),
         IconButton(
-            tooltip: "手机连接",
+            tooltip: "mobile phone connect",
             icon: const Icon(Icons.phone_iphone),
             onPressed: () async {
               final host = await localIp();
@@ -92,13 +92,13 @@ class _ToolbarState extends State<Toolbar> {
         builder: (context) {
           return AlertDialog(
               title: Row(children: [
-                const Text("手机连接", style: TextStyle(fontSize: 18)),
+                const Text("mobile phone connect", style: TextStyle(fontSize: 18)),
                 Expanded(
                     child: Align(
                         alignment: Alignment.topRight,
                         child: ElevatedButton.icon(
                             icon: const Icon(Icons.close, size: 15),
-                            label: const Text("关闭"),
+                            label: const Text("local machine"),
                             onPressed: () {
                               Navigator.of(context).pop();
                             })))
@@ -117,9 +117,9 @@ class _ToolbarState extends State<Toolbar> {
                         size: 200.0,
                       ),
                       const SizedBox(height: 10),
-                      Text("本机IP：$host:${widget.proxyServer.port}"),
+                      Text("Local machine IP：$host:${widget.proxyServer.port}"),
                       const SizedBox(height: 10),
-                      const Text("请使用手机版扫描二维码"),
+                      const Text("Please use the mobile version to scan the QR code"),
                     ],
                   )));
         });

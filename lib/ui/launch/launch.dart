@@ -33,7 +33,7 @@ class _SocketLaunchState extends State<SocketLaunch> with WindowListener, Widget
       });
       widget.onStart?.call();
     }).catchError((e) {
-      FlutterToastr.show("启动失败，请检查端口号${widget.proxyServer.port}是否被占用", context, duration: 3);
+      FlutterToastr.show("Startup failed, please check the port number${widget.proxyServer.port} in use", context, duration: 3);
     });
   }
 
@@ -66,7 +66,7 @@ class _SocketLaunchState extends State<SocketLaunch> with WindowListener, Widget
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        tooltip: started ? "停止" : "启动",
+        tooltip: started ? "stop" : "start",
         icon: Icon(started ? Icons.stop : Icons.play_arrow_sharp,
             color: started ? Colors.red : Colors.green, size: widget.size.toDouble()),
         onPressed: () async {
@@ -81,7 +81,7 @@ class _SocketLaunchState extends State<SocketLaunch> with WindowListener, Widget
                     started = !started;
                   }))
               .catchError((e) {
-            FlutterToastr.show("启动失败，请检查端口号${widget.proxyServer.port}是否被占用", context);
+            FlutterToastr.show("Startup failed, please check the port number${widget.proxyServer.port} in use", context);
           });
         });
   }

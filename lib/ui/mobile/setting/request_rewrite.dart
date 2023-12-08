@@ -37,7 +37,7 @@ class _MobileRequestRewriteState extends State<MobileRequestRewrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("请求重写")),
+        appBar: AppBar(title: const Text("Request a rewrite")),
         body: Container(
             padding: const EdgeInsets.all(10),
             child: ListView(
@@ -48,7 +48,7 @@ class _MobileRequestRewriteState extends State<MobileRequestRewrite> {
                         builder: (_, bool v, __) {
                           return SwitchListTile(
                               contentPadding: const EdgeInsets.only(left: 2),
-                              title: const Text('是否启用请求重写'),
+                              title: const Text('Whether to enable request rewriting'),
                               value: enableNotifier.value,
                               onChanged: (value) {
                                 enableNotifier.value = value;
@@ -61,7 +61,7 @@ class _MobileRequestRewriteState extends State<MobileRequestRewrite> {
                       onPressed: () {
                         add();
                       },
-                      label: const Text("增加")),
+                      label: const Text("add")),
                   const SizedBox(width: 10),
                   OutlinedButton.icon(
                       onPressed: () {
@@ -69,10 +69,10 @@ class _MobileRequestRewriteState extends State<MobileRequestRewrite> {
                         add(selectedIndex);
                       },
                       icon: const Icon(Icons.edit),
-                      label: const Text("编辑")),
+                      label: const Text("edit")),
                   TextButton.icon(
                       icon: const Icon(Icons.remove),
-                      label: const Text("删除"),
+                      label: const Text("delete"),
                       onPressed: () {
                         var removeSelected = requestRuleList.removeSelected();
                         if (removeSelected.isEmpty) {
@@ -129,7 +129,7 @@ class RuleAddDialog extends StatelessWidget {
     String? responseBody = rule?.responseBody;
 
     return AlertDialog(
-        title: const Text("添加请求重写规则", style: TextStyle(fontSize: 16)),
+        title: const Text("Add request rewrite rules", style: TextStyle(fontSize: 16)),
         scrollable: true,
         content: Form(
             key: formKey,
@@ -142,7 +142,7 @@ class RuleAddDialog extends StatelessWidget {
                       builder: (_, bool enable, __) {
                         return SwitchListTile(
                             contentPadding: const EdgeInsets.only(left: 0),
-                            title: const Text('是否启用', textAlign: TextAlign.start),
+                            title: const Text('Whether to enable', textAlign: TextAlign.start),
                             value: enable,
                             onChanged: (value) {
                               enableNotifier.value = value;
@@ -152,7 +152,7 @@ class RuleAddDialog extends StatelessWidget {
                       decoration: const InputDecoration(labelText: 'URL', hintText: '/api/v1/*'),
                       validator: (val) {
                         if (val == null || val.isEmpty) {
-                          return 'URL不能为空';
+                          return 'URL cannot be empty';
                         }
                         return null;
                       },
@@ -160,18 +160,18 @@ class RuleAddDialog extends StatelessWidget {
                       onSaved: (val) => url = val),
                   TextFormField(
                       initialValue: requestBody,
-                      decoration: const InputDecoration(labelText: '请求体替换为:'),
+                      decoration: const InputDecoration(labelText: 'Replace the request body with:'),
                       onSaved: (val) => requestBody = val),
                   TextFormField(
                       initialValue: responseBody,
                       minLines: 3,
                       maxLines: 15,
-                      decoration: const InputDecoration(labelText: '响应体替换为:', hintText: '{"code":"200","data":{}}'),
+                      decoration: const InputDecoration(labelText: 'The response body is replaced with:', hintText: '{"code":"200","data":{}}'),
                       onSaved: (val) => responseBody = val)
                 ])),
         actions: [
           FilledButton(
-              child: const Text("保存"),
+              child: const Text("save"),
               onPressed: () {
                 if ((formKey.currentState as FormState).validate()) {
                   (formKey.currentState as FormState).save();
@@ -190,7 +190,7 @@ class RuleAddDialog extends StatelessWidget {
                 }
               }),
           ElevatedButton(
-              child: const Text("关闭"),
+              child: const Text("close"),
               onPressed: () {
                 Navigator.of(context).pop();
               })
@@ -247,16 +247,16 @@ class _RequestRuleListState extends State<RequestRuleList> {
               dataRowMaxHeight: 100,
               border: TableBorder.symmetric(outside: BorderSide(width: 1, color: Theme.of(context).highlightColor)),
               columns: const <DataColumn>[
-                DataColumn(label: Text('启用')),
+                DataColumn(label: Text('enable')),
                 DataColumn(label: Text('URL')),
-                DataColumn(label: Text('请求体')),
-                DataColumn(label: Text('响应体')),
+                DataColumn(label: Text('Request body')),
+                DataColumn(label: Text('response body')),
               ],
               rows: List.generate(
                   widget.requestRewrites.rules.length,
                   (index) => DataRow(
                           cells: [
-                            DataCell(Text(widget.requestRewrites.rules[index].enabled ? "是" : "否")),
+                            DataCell(Text(widget.requestRewrites.rules[index].enabled ? "yes" : "no")),
                             DataCell(ConstrainedBox(
                                 constraints: const BoxConstraints(minWidth: 60),
                                 child: Text(widget.requestRewrites.rules[index].url))),

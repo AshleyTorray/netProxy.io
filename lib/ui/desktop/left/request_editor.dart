@@ -52,11 +52,11 @@ class RequestEditorState extends State<RequestEditor> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("请求编辑", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+          title: const Text("Request an edit", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           toolbarHeight: Platform.isWindows ? 36 : null,
           centerTitle: true,
           actions: [
-            TextButton.icon(onPressed: () async => sendRequest(), icon: const Icon(Icons.send), label: const Text("发送"))
+            TextButton.icon(onPressed: () async => sendRequest(), icon: const Icon(Icons.send), label: const Text("send"))
           ],
         ),
         body: SingleChildScrollView(
@@ -78,7 +78,7 @@ class RequestEditorState extends State<RequestEditor> {
     request.body = requestBody.codeUnits;
     HttpClients.proxyRequest("127.0.0.1", widget.proxyPort, request);
 
-    FlutterToastr.show('已重新发送请求', context);
+    FlutterToastr.show('Request resent', context);
     RawKeyboard.instance.removeListener(onKeyEvent);
     await Future.delayed(const Duration(milliseconds: 500), () => widget.windowController?.close());
   }
@@ -218,7 +218,7 @@ class HeadersState extends State<Headers> {
                     headers[TextEditingController()] = [TextEditingController()];
                   });
                 },
-                child: const Text("添加Header", textAlign: TextAlign.center))
+                child: const Text("AddHeader", textAlign: TextAlign.center))
           ]),
         ]));
   }

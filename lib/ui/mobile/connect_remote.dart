@@ -39,22 +39,22 @@ class ConnectRemoteState extends State<ConnectRemote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('已连接远程', style: TextStyle(fontSize: 16))),
+      appBar: AppBar(title: const Text('Remote connected', style: TextStyle(fontSize: 16))),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('已连接：${widget.desktop.value.hostname}', style: Theme.of(context).textTheme.titleMedium),
+            Text('connected:${widget.desktop.value.hostname}', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 10),
             OutlinedButton(
-                child: const Text('断开连接'),
+                child: const Text('Disconnect'),
                 onPressed: () {
                   widget.desktop.value = RemoteModel(connect: false);
                   Navigator.pop(context);
                 }),
             const SizedBox(height: 10),
             OutlinedButton(
-              child: const Text('同步配置'),
+              child: const Text('Sync configuration'),
               onPressed: () {
                 pullConfig();
               },
@@ -80,7 +80,7 @@ class ConnectRemoteState extends State<ConnectRemote> {
       }
     }).onError((error, stackTrace) {
       print(error);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('拉取配置失败, 请检查网络连接')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to pull configuration, please check network connection')));
     });
   }
 }
@@ -105,13 +105,13 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('同步配置', style: TextStyle(fontSize: 16)),
+      title: const Text('Sync configuration', style: TextStyle(fontSize: 16)),
       content: SizedBox(
           height: 230,
           child: Column(
             children: [
               SwitchListTile(
-                  subtitle: const Text("同步白名单过滤"),
+                  subtitle: const Text("Sync whitelist filtering"),
                   value: syncWhiteList,
                   onChanged: (val) {
                     setState(() {
@@ -119,7 +119,7 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
                     });
                   }),
               SwitchListTile(
-                  subtitle: const Text("同步黑名单过滤"),
+                  subtitle: const Text("Sync blacklist filtering"),
                   value: syncBlackList,
                   onChanged: (val) {
                     setState(() {
@@ -127,7 +127,7 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
                     });
                   }),
               SwitchListTile(
-                  subtitle: const Text("同步请求重写"),
+                  subtitle: const Text("Synchronous request rewrite"),
                   value: syncRewrite,
                   onChanged: (val) {
                     setState(() {
@@ -138,12 +138,12 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
           )),
       actions: [
         TextButton(
-            child: const Text('取消'),
+            child: const Text('cancel'),
             onPressed: () {
               Navigator.pop(context);
             }),
         TextButton(
-            child: const Text('开始同步'),
+            child: const Text('Start syncing'),
             onPressed: () {
               if (syncWhiteList) {
                 HostFilter.whitelist.load(widget.config['whitelist']);
@@ -157,7 +157,7 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
               }
               widget.proxyServer.flushConfig();
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('同步成功')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Synchronization successful')));
             }),
       ],
     );

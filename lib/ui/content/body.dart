@@ -13,7 +13,7 @@ import 'package:window_manager/window_manager.dart';
 
 class HttpBodyWidget extends StatefulWidget {
   final HttpMessage? httpMessage;
-  final bool inNewWindow; //是否在新窗口
+  final bool inNewWindow; //newWindow Flag
   final WindowController? windowController;
 
   const HttpBodyWidget({super.key, required this.httpMessage, this.inNewWindow = false, this.windowController});
@@ -97,17 +97,17 @@ class HttpBodyState extends State<HttpBodyWidget> {
         const SizedBox(width: 15),
         IconButton(
             icon: const Icon(Icons.copy),
-            tooltip: '复制',
+            tooltip: 'copy',
             onPressed: () {
               if (body == null || body?.isEmpty == true) {
                 return;
               }
-              Clipboard.setData(ClipboardData(text: body!)).then((value) => FlutterToastr.show("已复制到剪切板", context));
+              Clipboard.setData(ClipboardData(text: body!)).then((value) => FlutterToastr.show("copied in clipbord", context));
             }),
         const SizedBox(width: 5),
         inNewWindow
             ? const SizedBox()
-            : IconButton(icon: const Icon(Icons.open_in_new), tooltip: '新窗口打开', onPressed: () => openNew())
+            : IconButton(icon: const Icon(Icons.open_in_new), tooltip: 'open new window', onPressed: () => openNew())
       ],
     );
   }
@@ -123,7 +123,7 @@ class HttpBodyState extends State<HttpBodyWidget> {
         {'name': 'HttpBodyWidget', 'httpMessage': widget.httpMessage, 'inNewWindow': true},
       ));
       window
-        ..setTitle(widget.httpMessage is HttpRequest ? '请求体' : '响应体')
+        ..setTitle(widget.httpMessage is HttpRequest ? 'request body' : 'response body')
         ..setFrame(const Offset(100, 100) & Size(800 * ratio, size.height * ratio))
         ..center()
         ..show();
@@ -196,7 +196,7 @@ class Tabs {
 
 enum ViewType {
   text("Text"),
-  formUrl("URL 解码"),
+  formUrl("URL decoding"),
   json("JSON"),
   jsonText("JSON Text"),
   html("HTML"),

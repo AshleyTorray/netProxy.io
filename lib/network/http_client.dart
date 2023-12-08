@@ -7,7 +7,7 @@ import 'channel.dart';
 import 'http/codec.dart';
 
 class HttpClients {
-  /// 建立连接
+  /// establish connection
   static Future<Channel> rawConnect(HostAndPort hostAndPort, ChannelHandler handler) async {
     var client = Client()
       ..initChannel((channel) => channel.pipeline.handle(HttpResponseCodec(), HttpRequestCodec(), handler));
@@ -15,7 +15,7 @@ class HttpClients {
     return client.connect(hostAndPort);
   }
 
-  /// 建立连接
+  /// establish connection
   static Future<Channel> connect(Uri uri, ChannelHandler handler) async {
     Client client = Client()
       ..initChannel((channel) => channel.pipeline.handle(HttpResponseCodec(), HttpRequestCodec(), handler));
@@ -26,13 +26,13 @@ class HttpClients {
     return client.connect(HostAndPort.of(uri.toString()));
   }
 
-  /// 发送get请求
+  /// Send get request
   static Future<HttpResponse> get(String url, {Duration duration = const Duration(seconds: 3)}) async {
     HttpRequest msg = HttpRequest(HttpMethod.get, url);
     return request(HostAndPort.of(url), msg);
   }
 
-  /// 发送请求
+  /// request
   static Future<HttpResponse> request(HostAndPort hostAndPort, HttpRequest request,
       {Duration duration = const Duration(seconds: 3)}) async {
     var httpResponseHandler = HttpResponseHandler();
@@ -46,7 +46,7 @@ class HttpClients {
     return httpResponseHandler.getResponse(duration).whenComplete(() => channel.close());
   }
 
-  /// 发送代理请求
+  /// proxyRequest
   static Future<HttpResponse> proxyRequest(String proxyHost, int port, HttpRequest request,
       {Duration timeout = const Duration(seconds: 3)}) async {
     var httpResponseHandler = HttpResponseHandler();

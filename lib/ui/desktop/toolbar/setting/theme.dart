@@ -16,24 +16,24 @@ class ThemeSetting extends StatelessWidget {
         itemBuilder: (BuildContext context) {
           return [
             PopupMenuItem(
-                child: const ListTile(trailing: Icon(Icons.cached), dense: true, title: Text("跟随系统")),
+                child: const ListTile(trailing: Icon(Icons.cached), dense: true, title: Text("Follow the system")),
                 onTap: () {
                   themeNotifier.value = ThemeMode.system;
                 }),
             PopupMenuItem(
-                child: const ListTile(trailing: Icon(Icons.nightlight_outlined), dense: true, title: Text("深色")),
+                child: const ListTile(trailing: Icon(Icons.nightlight_outlined), dense: true, title: Text("Dark")),
                 onTap: () {
                   themeNotifier.value = ThemeMode.dark;
                 }),
             PopupMenuItem(
-                child: const ListTile(trailing: Icon(Icons.sunny), dense: true, title: Text("浅色")),
+                child: const ListTile(trailing: Icon(Icons.sunny), dense: true, title: Text("light color")),
                 onTap: () {
                   themeNotifier.value = ThemeMode.light;
                 }),
           ];
         },
         child: ListTile(
-          title: const Text("主题"),
+          title: const Text("theme"),
           trailing: const Icon(Icons.arrow_right),
           dense: dense,
         ));
